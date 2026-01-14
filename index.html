@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKORING KELAYAKAN OPERASI GERIATRI</title>
+    <style>
+        :root {
+            --primary: #2196F3;
+            --primary-dark: #1976D2;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --danger: #F44336;
+            --light-bg: #F5F5F5;
+            --card-bg: #FFFFFF;
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --border-color: #E0E0E0;
+            --shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--border-color);
+            background: white;
+            color: var(--text-secondary);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .form-label .badge {
+            background: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 8px;
+            font-weight: 600;
+        }
+
+        .form-control, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-control:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"],
+        .checkbox-option input[type="checkbox"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .result-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin-top: 15px;
+        }
+
+        .result-box.high {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+            border-left-color: var(--danger);
+        }
+
+        .result-box.warning {
+            background: linear-gradient(135deg, #fffaf0 0%, #ffe8cc 100%);
+            border-left-color: var(--warning);
+        }
+
+        .result-box.success {
+            background: linear-gradient(135deg, #f1f8f4 0%, #e8f5e9 100%);
+            border-left-color: var(--success);
+        }
+
+        .result-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .result-interpretation {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 30px 0;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+            color: #000000;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .summary-card .result-label {
+            color: #000000;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #d0d0d0;
+        }
+
+        .summary-card .result-value {
+            color: #000000;
+            font-weight: 700;
+        }
+
+        .summary-card .result-interpretation {
+            color: #212121;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--light-bg);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+
+        .info-box {
+            background: #E3F2FD;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #1565C0;
+        }
+
+        .row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .row-item {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .text-small {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .highlight {
+            background: #FFFACD;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .patient-info-section {
+            background: #F5F5F5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .print-btn {
+            margin-left: auto;
+        }
+
+        @media print {
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+                font-family: Arial, sans-serif;
+                font-size: 11px;
+                line-height: 1.4;
+            }
+            .container {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            .header {
+                display: none;
+            }
+            .tabs, .button-group, .print-btn, .card:not(#summaryCardContainer), .patient-info-section, .info-box {
+                display: none;
+            }
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            .summary-card {
+                page-break-inside: avoid;
+                margin-bottom: 8px;
+                padding: 10px;
+                background: white;
+                border: 1px solid #000;
+                border-collapse: collapse;
+                font-size: 11px;
+            }
+            .summary-card .result-label {
+                font-weight: 700;
+                font-size: 11px;
+                color: #000;
+                display: block;
+                margin-bottom: 3px;
+                border-bottom: 1px solid #000;
+                padding-bottom: 3px;
+            }
+            .summary-card .result-value {
+                font-size: 12px;
+                font-weight: 600;
+                margin: 3px 0;
+            }
+            .summary-card .result-interpretation {
+                font-size: 11px;
+                margin-top: 3px;
+                line-height: 1.4;
+            }
+            .preoperative-section {
+                margin-top: 15px;
+                padding: 10px;
+                border: 1px solid #000;
+                page-break-inside: avoid;
+                font-size: 11px;
+            }
+            .preoperative-section h3 {
+                font-size: 12px;
+                font-weight: 700;
+                margin-bottom: 8px;
+                border-bottom: 1px solid #000;
+                padding-bottom: 3px;
+            }
+            .preoperative-params {
+                margin-bottom: 10px;
+                line-height: 1.6;
+            }
+            .preoperative-params p {
+                margin: 2px 0;
+                padding-left: 10px;
+            }
+            .preoperative-notes {
+                margin-top: 8px;
+                line-height: 1.5;
+            }
+            .preoperative-notes p {
+                margin: 3px 0;
+                padding-left: 10px;
+            }
+            .section-divider {
+                display: none;
+            }
+            img {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>SKORING KELAYAKAN OPERASI GERIATRI</h1>
+            <p style="font-size: 16px; font-weight: 600; color: var(--primary); margin-bottom: 5px;">INTERNA UDAYANA</p>
+            <p style="font-size: 12px; color: var(--text-secondary);">© Gus Bhaskara 2026</p>
+        </div>
+
+    
+
+        <!-- Tab Navigation -->
+        <div class="tabs" id="tabContainer"></div>
+
+        <!-- Tab Contents -->
+        <div id="ariscat" class="content active">
+            <div class="card">
+                <div class="card-title">1️⃣ ARISCAT Score - Risiko Komplikasi Pulmoner Pascaoperasi</div>
+                <div class="info-box">💡 Penilaian risiko komplikasi respirasi setelah operasi</div>
+                
+                <div class="form-group">
+                    <label class="form-label">Usia <span class="badge">Poin 0-15</span></label>
+                    <select id="ariscat_age" class="form-control" onchange="calculateAriscat()">
+                        <option value="">- Pilih -</option>
+                        <option value="0">≤50 tahun (0 poin)</option>
+                        <option value="10">51-80 tahun (10 poin)</option>
+                        <option value="15">>80 tahun (15 poin)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Saturasi O₂ Preoperatif <span class="badge">Poin 0-24</span></label>
+                    <select id="ariscat_o2" class="form-control" onchange="calculateAriscat()">
+                        <option value="">- Pilih -</option>
+                        <option value="0">≥96% (0 poin)</option>
+                        <option value="8">91-95% (8 poin)</option>
+                        <option value="24">≤90% (24 poin)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Infeksi Respiratorik dalam 1 Bulan Terakhir?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="ariscat_resp" value="0" onchange="calculateAriscat()"> Tidak (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="ariscat_resp" value="10" onchange="calculateAriscat()"> Ya (10)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Anemia Preoperatif (Hgb ≤10 g/dL)?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="ariscat_anemia" value="0" onchange="calculateAriscat()"> Tidak (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="ariscat_anemia" value="11" onchange="calculateAriscat()"> Ya (11)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Lokasi Insisi <span class="badge">Poin 0-23</span></label>
+                    <select id="ariscat_incision" class="form-control" onchange="calculateAriscat()">
+                        <option value="">- Pilih -</option>
+                        <option value="0">Peripheral (0 poin)</option>
+                        <option value="15">Upper Abdomen (15 poin)</option>
+                        <option value="23">Thorax (23 poin)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Durasi Operasi <span class="badge">Poin 0-23</span></label>
+                    <select id="ariscat_duration" class="form-control" onchange="calculateAriscat()">
+                        <option value="">- Pilih -</option>
+                        <option value="0"><2 jam (0 poin)</option>
+                        <option value="16">2-3 jam (16 poin)</option>
+                        <option value="23">>3 jam (23 poin)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Operasi Darurat?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="ariscat_emergency" value="0" onchange="calculateAriscat()"> Tidak (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="ariscat_emergency" value="8" onchange="calculateAriscat()"> Ya (8)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-label">Total skor ARISCAT</div>
+                    <div class="result-value" id="ariscat_score">0</div>
+                    <div class="result-interpretation" id="ariscat_risk">Risiko: -</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="rcri" class="content">
+            <div class="card">
+                <div class="card-title">2️⃣ Revised Cardiac Risk Index (RCRI) - Risiko MACE</div>
+                <div class="info-box">💡 Penilaian risiko adverse cardiac events setelah operasi</div>
+
+                <div class="form-group">
+                    <label class="form-label">Riwayat Penyakit Jantung Iskemik (MI/Iskemia)?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="rcri_ihd" value="0" onchange="calculateRcri()"> Tidak (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="rcri_ihd" value="1" onchange="calculateRcri()"> Ya (1)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Riwayat Gagal Jantung Kongestif?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="rcri_chf" value="0" onchange="calculateRcri()"> Tidak (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="rcri_chf" value="1" onchange="calculateRcri()"> Ya (1)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Riwayat Penyakit Serebrovaskular (Stroke/TIA)?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="rcri_cvd" value="0" onchange="calculateRcri()"> Tidak (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="rcri_cvd" value="1" onchange="calculateRcri()"> Ya (1)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Diabetes Mellitus dengan Insulin?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="rcri_dm" value="0" onchange="calculateRcri()"> Tidak (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="rcri_dm" value="1" onchange="calculateRcri()"> Ya (1)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Kreatinin Serum >2.0 mg/dL?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="rcri_cr" value="0" onchange="calculateRcri()"> Tidak (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="rcri_cr" value="1" onchange="calculateRcri()"> Ya (1)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Operasi High-Risk (Intra-peritoneal/Thorax/Vascular)?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="rcri_surgery" value="0" onchange="calculateRcri()"> Tidak (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="rcri_surgery" value="1" onchange="calculateRcri()"> Ya (1)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-label">Total skor RCRI</div>
+                    <div class="result-value" id="rcri_score">0</div>
+                    <div class="result-interpretation" id="rcri_risk">Risiko MACE: -</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="caprini" class="content">
+            <div class="card">
+                <div class="card-title">3️⃣ Caprini VTE Score - Risiko Tromboembolisme Vena</div>
+                <div class="info-box">💡 Penilaian risiko deep vein thrombosis dan pulmonary embolism</div>
+
+                <div>
+                    <p style="font-weight: 600; margin-bottom: 15px; color: var(--primary);">Kriteria 1 Poin:</p>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_41_60" value="1" onchange="calculateCaprini()"> Usia 41–60 tahun
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_minor_surg" value="1" onchange="calculateCaprini()"> Bedah minor (terencana)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_bmi" value="1" onchange="calculateCaprini()"> Indeks Massa Tubuh (BMI > 25 kg/m²)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_swelling" value="1" onchange="calculateCaprini()"> Kaki bengkak (saat ini)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_varicose" value="1" onchange="calculateCaprini()"> Varises (Varicose veins)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_pregnancy" value="1" onchange="calculateCaprini()"> Kehamilan atau masa nifas (kurang dari 1 bulan)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_miscarriage" value="1" onchange="calculateCaprini()"> Riwayat keguguran berulang atau janin mati yang tidak dapat dijelaskan
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_oral_contraceptive" value="1" onchange="calculateCaprini()"> Penggunaan kontrasepsi oral atau terapi penggantian hormon (HRT)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_sepsis" value="1" onchange="calculateCaprini()"> Sepsis (kurang dari 1 bulan)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_pneumonia" value="1" onchange="calculateCaprini()"> Penyakit paru serius, termasuk pneumonia (kurang dari 1 bulan)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_copd" value="1" onchange="calculateCaprini()"> Fungsi paru abnormal (PPOK/Emfisema)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_ami" value="1" onchange="calculateCaprini()"> Infark miokard akut (serangan jantung)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_chf" value="1" onchange="calculateCaprini()"> Gagal jantung kongestif (kurang dari 1 bulan)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_ibd" value="1" onchange="calculateCaprini()"> Riwayat penyakit radang usus (Inflammatory Bowel Disease)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_bedrest" value="1" onchange="calculateCaprini()"> Pasien medis yang sedang dalam tirah baring (istirahat di tempat tidur)
+                        </label>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <p style="font-weight: 600; margin-bottom: 15px; color: var(--primary);">Kriteria 2 Poin:</p>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_61_74" value="2" onchange="calculateCaprini()"> Usia 61–74 tahun
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_major_surg" value="2" onchange="calculateCaprini()"> Bedah mayor (durasi > 45 menit, termasuk bedah laparoskopi)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_arthroscopy" value="2" onchange="calculateCaprini()"> Bedah artroskopi
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_cancer" value="2" onchange="calculateCaprini()"> Keganasan/Kanker (saat ini atau sebelumnya)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_bedbound" value="2" onchange="calculateCaprini()"> Pasien terbatas di tempat tidur (bedbound) > 72 jam
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_cast" value="2" onchange="calculateCaprini()"> Pemasangan gips/imobilisasi ekstremitas (kurang dari 1 bulan)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_cva" value="2" onchange="calculateCaprini()"> Akses vena sentral (Central venous access)
+                        </label>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <p style="font-weight: 600; margin-bottom: 15px; color: var(--primary);">Kriteria 3 Poin:</p>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_75plus" value="3" onchange="calculateCaprini()"> Usia ≥ 75 tahun
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_dvt_pe" value="3" onchange="calculateCaprini()"> Riwayat pribadi DVT atau Emboli Paru (PE)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_family_thrombosis" value="3" onchange="calculateCaprini()"> Riwayat keluarga dengan trombosis (pembekuan darah)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_factor_v" value="3" onchange="calculateCaprini()"> Faktor V Leiden positif
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_prothrombin" value="3" onchange="calculateCaprini()"> Mutasi Prothrombin 20210A positif
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_homocysteine" value="3" onchange="calculateCaprini()"> Kadar Homosistein serum meningkat
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_lupus" value="3" onchange="calculateCaprini()"> Lupus antikoagulan positif
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_anticardiolipin" value="3" onchange="calculateCaprini()"> Antibodi antikardiolipin meningkat
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_hit" value="3" onchange="calculateCaprini()"> Heparin-induced thrombocytopenia (HIT)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_thrombophilia" value="3" onchange="calculateCaprini()"> Trombofilia kongenital atau didapat lainnya
+                        </label>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <p style="font-weight: 600; margin-bottom: 15px; color: var(--primary);">Kriteria 5 Poin (Risiko Sangat Tinggi):</p>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_stroke" value="5" onchange="calculateCaprini()"> Stroke (kurang dari 1 bulan)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_arthroplasty" value="5" onchange="calculateCaprini()"> Bedah artroplasti elektif (panggul atau lutut)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_hip_fracture" value="5" onchange="calculateCaprini()"> Fraktur panggul, panggul, atau tungkai (kurang dari 1 bulan)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_spinal_injury" value="5" onchange="calculateCaprini()"> Cedera sumsum tulang belakang akut (paralisis) (kurang dari 1 bulan)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="caprini_trauma" value="5" onchange="calculateCaprini()"> Trauma multipel (kurang dari 1 bulan)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-label">Total skor Caprini </div>
+                    <div class="result-value" id="caprini_score">0</div>
+                    <div class="result-interpretation" id="caprini_risk">Risiko: -</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="bleeding" class="content">
+            <div class="card">
+                <div class="card-title">4️⃣ IMPROVE Bleeding Score - Risiko Pendarahan</div>
+                <div class="info-box">💡 Penilaian risiko komplikasi perdarahan perioperatif</div>
+
+                <div class="form-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="bleed_cancer" value="2" onchange="calculateBleeding()"> Kanker aktif (2 poin)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="bleed_age" value="2" onchange="calculateBleeding()"> Umur ≥85 tahun (2 poin)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="bleed_renal" value="2" onchange="calculateBleeding()"> Gangguan ginjal berat (Cr >1.5x) (2 poin)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="bleed_platelet" value="2" onchange="calculateBleeding()"> Trombositopenia (<50.000) (2 poin)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="bleed_gi" value="1" onchange="calculateBleeding()"> Riwayat pendarahan GI (1 poin)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="bleed_liver" value="1" onchange="calculateBleeding()"> Penyakit hepar berat (1 poin)
+                    </label>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-label">Total skor IMPROVE Bleeding</div>
+                    <div class="result-value" id="bleeding_score">0</div>
+                    <div class="result-interpretation" id="bleeding_risk">Interpretasi: -</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="frailty" class="content">
+            <div class="card">
+                <div class="card-title">5️⃣ Clinical Frailty Assessment</div>
+                <div class="info-box">💡 Penilaian derajat kerapuhan (frailty) klinis</div>
+
+                <div class="form-group">
+                    <label class="form-label" style="font-weight: 700; margin-bottom: 15px;">📊 Referensi Visual Clinical Frailty Scale:</label>
+                    <div style="margin-bottom: 30px; text-align: center;">
+                        <a href="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/394e0117-49b8-4ecb-99dd-ff56afc589fe" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   style="color: #007bff; text-decoration: underline; font-weight: 500;">
+                   🔗 Klik di sini untuk melihat referensi Clinical Frailty Scale
+                </a>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Pilih Level Frailty:</label>
+                    <div style="display: grid; gap: 10px;">
+                        <label class="radio-option" style="display: flex; align-items: flex-start; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; cursor: pointer;">
+                            <input type="radio" name="frailty" value="1" onchange="calculateFrailty()" style="margin-top: 3px;"> 
+                            <div style="margin-left: 10px;">
+                                <strong>1. Very Fit</strong>
+                                <div class="text-small">Orang yang aktif, berenergi, dan termotivasi. Biasanya berolahraga secara teratur dan termasuk yang paling fit untuk kelompok seusianya.</div>
+                            </div>
+                        </label>
+                        <label class="radio-option" style="display: flex; align-items: flex-start; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; cursor: pointer;">
+                            <input type="radio" name="frailty" value="2" onchange="calculateFrailty()" style="margin-top: 3px;"> 
+                            <div style="margin-left: 10px;">
+                                <strong>2. Fit</strong>
+                                <div class="text-small">Orang yang tidak memiliki gejala penyakit aktif, tetapi kurang fit dibandingkan kategori 1.</div>
+                            </div>
+                        </label>
+                        <label class="radio-option" style="display: flex; align-items: flex-start; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; cursor: pointer;">
+                            <input type="radio" name="frailty" value="3" onchange="calculateFrailty()" style="margin-top: 3px;"> 
+                            <div style="margin-left: 10px;">
+                                <strong>3. Managing Well</strong>
+                                <div class="text-small">Masalah medisnya terkontrol dengan baik, tetapi mereka tidak aktif secara fisik di luar rutinitas berjalan kaki biasa.</div>
+                            </div>
+                        </label>
+                        <label class="radio-option" style="display: flex; align-items: flex-start; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; cursor: pointer;">
+                            <input type="radio" name="frailty" value="4" onchange="calculateFrailty()" style="margin-top: 3px;"> 
+                            <div style="margin-left: 10px;">
+                                <strong>4. Living with Very Mild Frailty</strong>
+                                <div class="text-small">Meskipun tidak tergantung pada bantuan orang lain, gejala penyakit sering membatasi aktivitas. Keluhan umum adalah "merasa melambat" dan lelah di siang hari.</div>
+                            </div>
+                        </label>
+                        <label class="radio-option" style="display: flex; align-items: flex-start; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; cursor: pointer;">
+                            <input type="radio" name="frailty" value="5" onchange="calculateFrailty()" style="margin-top: 3px;"> 
+                            <div style="margin-left: 10px;">
+                                <strong>5. Living with Mild Frailty</strong>
+                                <div class="text-small">Orang yang mulai membutuhkan bantuan dalam aktivitas instrumen yang kompleks (seperti keuangan, transportasi, belanja berat, atau pemeliharaan rumah).</div>
+                            </div>
+                        </label>
+                        <label class="radio-option" style="display: flex; align-items: flex-start; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; cursor: pointer;">
+                            <input type="radio" name="frailty" value="6" onchange="calculateFrailty()" style="margin-top: 3px;"> 
+                            <div style="margin-left: 10px;">
+                                <strong>6. Living with Moderate Frailty</strong>
+                                <div class="text-small">Membutuhkan bantuan untuk semua aktivitas luar rumah dan menjaga rumah. Di dalam rumah, mereka butuh bantuan untuk mandi dan mungkin berpakaian.</div>
+                            </div>
+                        </label>
+                        <label class="radio-option" style="display: flex; align-items: flex-start; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; cursor: pointer;">
+                            <input type="radio" name="frailty" value="7" onchange="calculateFrailty()" style="margin-top: 3px;"> 
+                            <div style="margin-left: 10px;">
+                                <strong>7. Living with Severe Frailty</strong>
+                                <div class="text-small">Tergantung sepenuhnya pada orang lain untuk perawatan diri (makan, mandi, berpakaian) karena alasan fisik atau kognitif. Namun, kondisi mereka tampak stabil.</div>
+                            </div>
+                        </label>
+                        <label class="radio-option" style="display: flex; align-items: flex-start; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; cursor: pointer;">
+                            <input type="radio" name="frailty" value="8" onchange="calculateFrailty()" style="margin-top: 3px;"> 
+                            <div style="margin-left: 10px;">
+                                <strong>8. Living with Very Severe Frailty</strong>
+                                <div class="text-small">Tergantung sepenuhnya pada perawatan diri dan mendekati akhir hayat. Biasanya mereka tidak dapat pulih bahkan dari penyakit ringan sekalipun.</div>
+                            </div>
+                        </label>
+                        <label class="radio-option" style="display: flex; align-items: flex-start; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; cursor: pointer;">
+                            <input type="radio" name="frailty" value="9" onchange="calculateFrailty()" style="margin-top: 3px;"> 
+                            <div style="margin-left: 10px;">
+                                <strong>9. Terminally Ill</strong>
+                                <div class="text-small">Mendekati akhir hayat. Kategori ini digunakan untuk mereka yang memiliki harapan hidup < 6 bulan, meskipun mereka mungkin belum terlihat rapuh sebelumnya.</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-label">Status Frailty</div>
+                    <div class="result-value" id="frailty_result">-</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="morse" class="content">
+            <div class="card">
+                <div class="card-title">6️⃣ Skor Risiko Jatuh Morse</div>
+                <div class="info-box">💡 Penilaian risiko jatuh pasien selama rawat inap</div>
+
+                <div class="form-group">
+                    <label class="form-label">Riwayat Jatuh (dalam 3 bulan)?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="morse_fall" value="0" onchange="calculateMorse()"> Tidak (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="morse_fall" value="25" onchange="calculateMorse()"> Ya (25)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Sekunder Diagnosis (>1 diagnosa medis)?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="morse_diagnosis" value="0" onchange="calculateMorse()"> Tidak (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="morse_diagnosis" value="15" onchange="calculateMorse()"> Ya (15)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Alat Bantu Jalan (Ambulatory Aid)?</label>
+                    <select id="morse_aid" class="form-control" onchange="calculateMorse()">
+                        <option value="">- Pilih -</option>
+                        <option value="0">Tidak/Furniture (0)</option>
+                        <option value="15">Crutches/Walker (15)</option>
+                        <option value="30">Furniture/Other (30)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Terpasang infus (IV) atau Heparin Lock?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="morse_iv" value="0" onchange="calculateMorse()"> Tidak (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="morse_iv" value="20" onchange="calculateMorse()"> Ya (20)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Gait (Cara Berjalan)?</label>
+                    <select id="morse_gait" class="form-control" onchange="calculateMorse()">
+                        <option value="">- Pilih -</option>
+                        <option value="0">Normal/Bedrest/Immobile (0)</option>
+                        <option value="10">Weak (10)</option>
+                        <option value="20">Impaired (20)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Status Mental (Kemampuan Memahami Keterbatasan)?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="morse_mental" value="0" onchange="calculateMorse()"> Oriented (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="morse_mental" value="15" onchange="calculateMorse()"> Confused (15)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-label">Total Skor Morse </div>
+                    <div class="result-value" id="morse_score">0</div>
+                    <div class="result-interpretation" id="morse_risk">Risiko: -</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="nutrition" class="content">
+            <div class="card">
+                <div class="card-title">7️⃣ Penilaian Nutrisi</div>
+                <div class="info-box">💡 Skrining risiko malnutrisi pada pasien</div>
+
+                <div class="form-group">
+                    <label class="form-label">Apakah berat badan berkurang >3 kg dalam 3 bulan terakhir ATAU pakaian menjadi lebih longgar?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="nutrition_weight" value="Ya" onchange="calculateNutrition()"> Ya
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="nutrition_weight" value="Tidak" onchange="calculateNutrition()"> Tidak
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Apakah hilang nafsu makan dalam 1 minggu terakhir?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="nutrition_appetite" value="Ya" onchange="calculateNutrition()"> Ya
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="nutrition_appetite" value="Tidak" onchange="calculateNutrition()"> Tidak
+                        </label>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-label">Status Nutrisi:</div>
+                    <div class="result-value" id="nutrition_result">-</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="cognition" class="content">
+            <div class="card">
+                <div class="card-title">8️⃣ Penilaian Kognitif</div>
+                <div class="info-box">💡 Pemeriksaan Mini Cog Test untuk deteksi gangguan kognitif</div>
+
+                <div class="form-group">
+                    <label class="form-label" style="font-weight: 700; background: #E3F2FD; padding: 10px; border-radius: 5px;">
+                        📝 INGATAN: Sebutkan kepada pasien 3 kata: <span class="highlight">Apel, Meja, Koin</span>
+                    </label>
+                    <div class="text-small" style="margin-top: 8px;">Minta pasien mengingat ketiga kata ini, akan ditanya di akhir pemeriksaan</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Orientasi Waktu: Tanggal berapa sekarang?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="cog_time" value="0" onchange="calculateCognition()"> Benar (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="cog_time" value="1" onchange="calculateCognition()"> Salah (1)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Orientasi Tempat: Dimana Anda berada sekarang (rumah/klinik/RS/dsb)?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="cog_place" value="0" onchange="calculateCognition()"> Benar (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="cog_place" value="1" onchange="calculateCognition()"> Salah (1)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" style="font-weight: 700; background: #FFF9C4; padding: 10px; border-radius: 5px;">
+                        🔄 Sekarang minta pasien ULANGI ketiga kata tadi: <span class="highlight">Apel, Meja, Koin</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="cog_recall" value="0" onchange="calculateCognition()"> Benar semua 3 kata (0)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="cog_recall" value="1" onchange="calculateCognition()"> Salah 1-2 kata (1)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="cog_recall" value="1" onchange="calculateCognition()"> Tidak dapat (1)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-label">Status Kognitif:</div>
+                    <div class="result-value" id="cognition_result">-</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="depression" class="content">
+            <div class="card">
+                <div class="card-title">9️⃣ Penilaian Depresi</div>
+                <div class="info-box">💡 Skrining gejala depresi pada pasien</div>
+
+                <div class="form-group">
+                    <label class="form-label">Apakah Anda merasakan sedih, tertekan, atau putus asa?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="depr_mood" value="1" onchange="calculateDepression()"> Ada (1)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="depr_mood" value="0" onchange="calculateDepression()"> Tidak (0)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Apakah ada penurunan minat atau kesenangan dalam aktivitas sehari-hari?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="depr_pleasure" value="1" onchange="calculateDepression()"> Ada (1)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="depr_pleasure" value="0" onchange="calculateDepression()"> Tidak (0)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-label">Status Depresi:</div>
+                    <div class="result-value" id="depression_result">-</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="delirium" class="content">
+            <div class="card">
+                <div class="card-title">🔟 Penilaian Risiko Delirium Rawat Inap</div>
+                <div class="info-box">💡 Skrining faktor risiko delirium pascaoperasi</div>
+
+                <div class="form-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="delirium_age" value="1" onchange="calculateDelirium()"> Usia >70 tahun (1 poin)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="delirium_alcohol" value="1" onchange="calculateDelirium()"> Ketergantungan alkohol (1 poin)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="delirium_cognitive" value="1" onchange="calculateDelirium()"> Gangguan kognitif (1 poin)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="delirium_physical" value="1" onchange="calculateDelirium()"> Kelainan jasmani berat - penurunan kemampuan berjalan/ADL (1 poin)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="delirium_lab" value="1" onchange="calculateDelirium()"> Abnormalitas hasil lab/elektrolit/glukosa (1 poin)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="delirium_thorax" value="1" onchange="calculateDelirium()"> Operasi thorax non-cardiac (1 poin)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="delirium_aaa" value="1" onchange="calculateDelirium()"> Operasi aneurisma abdominal aorta (1 poin)
+                    </label>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-label">Total skor Delirium (buku PAPDI)</div>
+                    <div class="result-value" id="delirium_score">0</div>
+                    <div class="result-interpretation" id="delirium_risk">Risiko Delirium: -</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="summary" class="content">
+            <div class="card">
+                <div class="card-title">KESIMPULAN PERIOPERATIF GERIATRI</div>
+                
+                <div id="summaryContent">
+                    <p style="text-align: center; color: var(--text-secondary); padding: 40px;">
+                        Isi semua kuesioner terlebih dahulu untuk melihat ringkasan hasil
+                    </p>
+                </div>
+
+                <div class="button-group" style="margin-top: 30px;">
+                    <button class="btn btn-primary" onclick="printSummary()">🖨️ Cetak Laporan</button>
+                    <button class="btn btn-secondary" onclick="resetAll()">🔄 Reset Semua</button>
+                </div>
+            </div>
+            
+            <!-- Hidden container untuk print -->
+            <div id="printContainer" style="display: none;">
+                <div id="summaryCardContainer" style="padding: 20px;">
+                    <!-- Konten ringkasan akan diisi dengan JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTabs();
+            document.getElementById('assessmentDate').valueAsDate = new Date();
+        });
+
+        // Tab Management
+        function initializeTabs() {
+            const tabs = [
+                { id: 'ariscat', label: '1️⃣ ARISCAT', content: 'ariscat' },
+                { id: 'rcri', label: '2️⃣ RCRI', content: 'rcri' },
+                { id: 'caprini', label: '3️⃣ VTE', content: 'caprini' },
+                { id: 'bleeding', label: '4️⃣ Bleeding', content: 'bleeding' },
+                { id: 'frailty', label: '5️⃣ Frailty', content: 'frailty' },
+                { id: 'morse', label: '6️⃣ Fall Risk', content: 'morse' },
+                { id: 'nutrition', label: '7️⃣ Nutrisi', content: 'nutrition' },
+                { id: 'cognition', label: '8️⃣ Kognitif', content: 'cognition' },
+                { id: 'depression', label: '9️⃣ Depresi', content: 'depression' },
+                { id: 'delirium', label: '🔟 Delirium', content: 'delirium' },
+                { id: 'summary', label: '📊 Ringkasan', content: 'summary' }
+            ];
+
+            const tabContainer = document.getElementById('tabContainer');
+            tabs.forEach((tab, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'tab-btn' + (index === 0 ? ' active' : '');
+                btn.textContent = tab.label;
+                btn.onclick = () => switchTab(tab.content, btn);
+                tabContainer.appendChild(btn);
+            });
+        }
+
+        function switchTab(tabName, btn) {
+            document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            btn.classList.add('active');
+
+            if (tabName === 'summary') {
+                updateSummary();
+            }
+        }
+
+        // Calculation Functions
+        function calculateAriscat() {
+            const age = parseInt(document.getElementById('ariscat_age').value || 0);
+            const o2 = parseInt(document.getElementById('ariscat_o2').value || 0);
+            const resp = parseInt(document.querySelector('input[name="ariscat_resp"]:checked')?.value || 0);
+            const anemia = parseInt(document.querySelector('input[name="ariscat_anemia"]:checked')?.value || 0);
+            const incision = parseInt(document.getElementById('ariscat_incision').value || 0);
+            const duration = parseInt(document.getElementById('ariscat_duration').value || 0);
+            const emergency = parseInt(document.querySelector('input[name="ariscat_emergency"]:checked')?.value || 0);
+
+            const total = age + o2 + resp + anemia + incision + duration + emergency;
+            document.getElementById('ariscat_score').textContent = total;
+
+            let risk = '-';
+            if (total < 26) risk = 'Rendah (1.6%)';
+            else if (total <= 44) risk = 'Sedang (13.3%)';
+            else risk = 'Tinggi (42.1%)';
+
+            document.getElementById('ariscat_risk').textContent = 'Risiko: ' + risk;
+        }
+
+        function calculateRcri() {
+            const values = [
+                'rcri_ihd', 'rcri_chf', 'rcri_cvd', 'rcri_dm', 'rcri_cr', 'rcri_surgery'
+            ];
+
+            let total = 0;
+            values.forEach(name => {
+                total += parseInt(document.querySelector(`input[name="${name}"]:checked`)?.value || 0);
+            });
+
+            document.getElementById('rcri_score').textContent = total;
+
+            const risks = ['Rendah (0.4%)', 'Rendah (0.9%)', 'Tinggi (6.6%)', 'Tinggi (11%)'];
+            const risk = risks[Math.min(total, 3)];
+            document.getElementById('rcri_risk').textContent = 'Risiko MACE: ' + risk;
+        }
+
+        function calculateCaprini() {
+            let total = 0;
+            const checkboxes = document.querySelectorAll('input[name^="caprini_"]:checked');
+            checkboxes.forEach(cb => {
+                total += parseInt(cb.value);
+            });
+
+            document.getElementById('caprini_score').textContent = total;
+
+            let risk = '-';
+            let prophylaxis = '';
+
+            if (total <= 1) {
+                risk = 'Sangat Rendah';
+                prophylaxis = 'Mobilisasi dini (jalan kaki segera)';
+            } else if (total === 2) {
+                risk = 'Rendah';
+                prophylaxis = 'Profilaksis mekanik (misal: stoking kompresi)';
+            } else if (total <= 4) {
+                risk = 'Sedang';
+                prophylaxis = 'Profilaksis farmakologi (obat) dan/atau mekanik';
+            } else if (total <= 8) {
+                risk = 'Tinggi';
+                prophylaxis = 'Profilaksis mekanis DAN farmakologi selama 7-10 hari (saran Enoxaparin 0.4 cc tiap 24 jam SC dimulai 12 jam post operasi - bila tidak ada risiko perdarahan)';
+            } else {
+                risk = 'Sangat Tinggi';
+                prophylaxis = 'Profilaksis mekanis DAN farmakologi dengan durasi hingga 30 hari (saran Enoxaparin 0.4 cc tiap 24 jam SC dimulai 12 jam post operasi- bila tidak ada risiko perdarahan)';
+            }
+
+            document.getElementById('caprini_risk').setAttribute('data-risk', risk);
+document.getElementById('caprini_risk').setAttribute('data-prophylaxis', prophylaxis);
+document.getElementById('caprini_risk').innerHTML = 'Risiko: ' + risk + '<br>' + prophylaxis;
+
+        }
+
+        function calculateBleeding() {
+            let total = 0;
+            const checkboxes = document.querySelectorAll('input[name^="bleed_"]:checked');
+            checkboxes.forEach(cb => {
+                total += parseInt(cb.value);
+            });
+
+            document.getElementById('bleeding_score').textContent = total;
+
+            const risk = total === 0 ? 'Tidak ada peningkatan risiko' : 'Peningkatan risiko perdarahan';
+            document.getElementById('bleeding_risk').textContent = 'Interpretasi: ' + risk;
+        }
+
+        function calculateFrailty() {
+            const value = document.querySelector('input[name="frailty"]:checked')?.value;
+            const levels = [
+                '', 'Very Fit', 'Fit', 'Managing Well', 'Living with Very Mild Frailty',
+                'Living with Mild Frailty', 'Living with Moderate Frailty', 'Living with Severe Frailty',
+                'Living with Very Severe Frailty', 'Terminally Ill'
+            ];
+            document.getElementById('frailty_result').textContent = value ? levels[value] + ' (Level ' + value + ')' : '-';
+        }
+
+        function calculateMorse() {
+            const fall = parseInt(document.querySelector('input[name="morse_fall"]:checked')?.value || 0);
+            const diagnosis = parseInt(document.querySelector('input[name="morse_diagnosis"]:checked')?.value || 0);
+            const aid = parseInt(document.getElementById('morse_aid').value || 0);
+            const iv = parseInt(document.querySelector('input[name="morse_iv"]:checked')?.value || 0);
+            const gait = parseInt(document.getElementById('morse_gait').value || 0);
+            const mental = parseInt(document.querySelector('input[name="morse_mental"]:checked')?.value || 0);
+
+            const total = fall + diagnosis + aid + iv + gait + mental;
+            document.getElementById('morse_score').textContent = total;
+
+            let risk = '-';
+            if (total < 25) risk = 'Risiko rendah';
+            else if (total <= 44) risk = 'Risiko sedang';
+            else risk = 'Risiko tinggi';
+
+            document.getElementById('morse_risk').textContent = 'Risiko: ' + risk;
+        }
+
+        function calculateNutrition() {
+            const weight = document.querySelector('input[name="nutrition_weight"]:checked')?.value;
+            const appetite = document.querySelector('input[name="nutrition_appetite"]:checked')?.value;
+
+            const result = (weight === 'Ya' || appetite === 'Ya') ? 'Risiko Malnutrisi' : 'Tidak Ada Risiko Malnutrisi';
+            document.getElementById('nutrition_result').textContent = result;
+        }
+
+        function calculateCognition() {
+            const time = parseInt(document.querySelector('input[name="cog_time"]:checked')?.value || 0);
+            const place = parseInt(document.querySelector('input[name="cog_place"]:checked')?.value || 0);
+            const recall = parseInt(document.querySelector('input[name="cog_recall"]:checked')?.value || 0);
+
+            const result = (time === 1 || place === 1 || recall === 1) ? 'Terganggu' : 'Baik';
+            document.getElementById('cognition_result').textContent = result;
+        }
+
+        function calculateDepression() {
+            const mood = parseInt(document.querySelector('input[name="depr_mood"]:checked')?.value || 0);
+            const pleasure = parseInt(document.querySelector('input[name="depr_pleasure"]:checked')?.value || 0);
+
+            const result = (mood + pleasure) >= 1 ? 'Ada Depresi' : 'Tidak Ada Depresi';
+            document.getElementById('depression_result').textContent = result;
+        }
+
+        function calculateDelirium() {
+            let total = 0;
+            document.querySelectorAll('input[name^="delirium_"]:checked').forEach(cb => {
+                total += parseInt(cb.value);
+            });
+
+            document.getElementById('delirium_score').textContent = total;
+
+            let risk = '-';
+            if (total === 0) risk = 'Rendah (2%)';
+            else if (total <= 2) risk = 'Sedang (11%)';
+            else risk = 'Tinggi (50%)';
+
+            document.getElementById('delirium_risk').textContent = 'Risiko Delirium: ' + risk;
+        }
+
+        // Summary
+        function updateSummary() {
+            calculateAriscat();
+            calculateRcri();
+            calculateCaprini();
+            calculateBleeding();
+            calculateFrailty();
+            calculateMorse();
+            calculateNutrition();
+            calculateCognition();
+            calculateDepression();
+            calculateDelirium();
+
+            const html = `
+
+                
+                <div class="summary-card">
+                    <div class="result-label">1. Risiko Komplikasi Pulmoner</div>
+                    <div class="result-value">${document.getElementById('ariscat_risk').textContent.replace('Risiko: ', '')}</div>
+                    <div class="result-interpretation">Skor ARISCAT ${document.getElementById('ariscat_score').textContent} poin</div>
+                </div>
+
+                <div class="summary-card">
+    <div class="result-label">2. Risiko Major Adverse Cardiac Events (MACE)</div>
+    <div class="result-value">${document.getElementById('rcri_risk').textContent.replace('Risiko MACE: ', '')}</div>
+    <div class="result-interpretation">Skor RCRI ${document.getElementById('rcri_score').textContent} poin</div>
+</div>
+
+<div class="summary-card">
+    <div class="result-label">3. Risiko Tromboembolisme Vena</div>
+    <div class="result-value">${document.getElementById('caprini_risk').getAttribute('data-risk') || '-'}</div>
+    <div class="result-interpretation">Skor Caprini ${document.getElementById('caprini_score').textContent} poin</div>
+    <div class="result-interpretation" style="font-weight: normal; margin-top: 8px;">${document.getElementById('caprini_risk').getAttribute('data-prophylaxis') || ''}</div>
+</div>
+
+
+<div class="summary-card">
+    <div class="result-label">4. Risiko Perdarahan</div>
+    <div class="result-value">${document.getElementById('bleeding_risk').textContent.replace('Interpretasi: ', '')}</div>
+    <div class="result-interpretation">Skor IMPROVE bleeding ${document.getElementById('bleeding_score').textContent} poin</div>
+</div>
+
+<div class="summary-card">
+    <div class="result-label">5. Penilaian Frailty</div>
+    <div class="result-value">${document.getElementById('frailty_result').textContent}</div>
+    </div>
+
+<div class="summary-card">
+    <div class="result-label">6. Risiko Jatuh</div>
+    <div class="result-value">${document.getElementById('morse_risk').textContent.replace('Risiko: ', '')}</div>
+    <div class="result-interpretation">Skor risiko jatuh Morse ${document.getElementById('morse_score').textContent} poin</div>
+</div>
+
+<div class="summary-card">
+    <div class="result-label">7. Risiko Malnutrisi</div>
+    <div class="result-value">${document.getElementById('nutrition_result').textContent}</div>
+</div>
+
+<div class="summary-card">
+    <div class="result-label">8. Penilaian Kognitif</div>
+    <div class="result-value">${document.getElementById('cognition_result').textContent}</div>
+</div>
+
+<div class="summary-card">
+    <div class="result-label">9. Penilaian Depresi</div>
+    <div class="result-value">${document.getElementById('depression_result').textContent}</div>
+</div>
+
+<div class="summary-card">
+    <div class="result-label">10. Risiko Delirium Rawat Inap</div>
+    <div class="result-value">${document.getElementById('delirium_risk').textContent.replace('Risiko Delirium: ', '')}</div>
+    <div class="result-interpretation">Skor delirium (buku PAPDI) ${document.getElementById('delirium_score').textContent} poin</div>
+</div>
+
+        
+
+                <div class="summary-card" style="background: linear-gradient(135deg, #F5F5F5 0%, #E8E8E8 100%); color: #212121; margin-top: 20px;">
+                    <div style="font-size: 12px; line-height: 1.8; color: #212121;">
+                        <strong>Optimal dilakukan tindakan bila:</strong><br>
+                        • TD &lt; 160/90 mmHg<br>
+                        • BSA &lt; 200 mg/dL<br>
+                        • SC &lt; 7 gr/dL<br>
+                        • Hgb &gt; 10 gr/dL<br>
+                        • K 3.5 - 5.3 mmol/L<br><br>
+                        <strong style="display: block; margin-top: 10px;">Indikasi dan kontraindikasi tindakan sesuai operator.</strong>
+                        <strong style="display: block; margin-top: 5px;">Terapi lain sesuai PPA terkait.</strong>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('summaryContent').innerHTML = html;
+        }
+
+        function printSummary() {
+            const summaryContent = document.getElementById('summaryContent').innerHTML;
+            const printContainer = document.getElementById('printContainer');
+            const summaryCardContainer = document.getElementById('summaryCardContainer');
+            
+            // Copy konten ke container print
+            summaryCardContainer.innerHTML = summaryContent + `
+                                    </div>
+                </div>
+            `;
+            
+            // Tampilkan container print
+            printContainer.style.display = 'block';
+            
+            // Cetak
+            setTimeout(() => {
+                window.print();
+                // Sembunyikan kembali container print
+                printContainer.style.display = 'none';
+            }, 100);
+        }
+
+        function resetAll() {
+            if (confirm('Apakah Anda yakin ingin mereset semua data?')) {
+                document.querySelectorAll('input, select').forEach(el => {
+                    if (el.type === 'radio' || el.type === 'checkbox') {
+                        el.checked = false;
+                    } else if (el.type !== 'date') {
+                        el.value = '';
+                    }
+                });
+                document.getElementById('assessmentDate').valueAsDate = new Date();
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
